@@ -5,7 +5,7 @@ jIconFont (https://github.com/jIconFont/jiconfont) implementation of Mana (https
 
 ``` 
 dependencies {
-    compile 'com.kloenlansfiel.jiconfont:mana:1.0.0'
+    compile 'com.kloenlansfiel.jiconfont:mana:1.1.0'
 }
 ```
 
@@ -14,7 +14,7 @@ dependencies {
 <dependency>
     <groupId>com.kloenlansfiel.jiconfont</groupId>
     <artifactId>mana</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <type>pom</type>
 </dependency>
 ```
