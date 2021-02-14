@@ -1,9 +1,11 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+}
+
 group 'com.kloenlansfiel.jiconfont'
 version '1.2.0'
-
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 
@@ -15,73 +17,65 @@ dependencies {
     compile 'com.github.jiconfont:jiconfont:1.0.0'
 }
 
-task sourceJar(type: Jar) {
-    classifier "sources"
-    from sourceSets.main.allJava
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier "javadoc"
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives jar
-    archives sourceJar
-    archives javadocJar
-}
-
-signing {
-    useGpgCmd()
-    sign configurations.archives
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            customizePom(pom)
-            groupId 'com.kloenlansfiel.jiconfont'
-            artifactId 'mana'
-            version '1.2.0'
-
-            from components.java
-
-            // create the sign pom artifact
-            pom.withXml {
-                def pomFile = file("${project.buildDir}/generated-pom.xml")
-                writeTo(pomFile)
-                def pomAscFile = signing.sign(pomFile).signatureFiles[0]
-                artifact(pomAscFile) {
-                    classifier = null
-                    extension = 'pom.asc'
-                }
-            }
-
-            artifact(sourceJar) {
-                classifier = 'sources'
-            }
-            artifact(javadocJar) {
-                classifier = 'javadoc'
-            }
-
-            // create the signed artifacts
-            project.tasks.signArchives.signatureFiles.each {
-                artifact(it) {
-                    def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
-                    if (matcher.find()) {
-                        classifier = matcher.group(1)
-                    } else {
-                        classifier = null
+            afterEvaluate {
+                artifactId = "mana"
+                from components.java
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
                     }
-                    extension = 'jar.asc'
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+                pom {
+                    name = 'jIconFont Mana'
+                    description = 'jIconFont (https://github.com/jIconFont/jiconfont) implementation of Mana (https://github.com/andrewgioia/Mana)'
+                    url = 'https://github.com/Kloen/jiconfont-mana'
+                    organization {
+                        name = 'com.kloenlansfiel'
+                        url = 'https://www.kloenlansfiel.com'
+                    }
+                    issueManagement {
+                        system = 'Github'
+                        url = 'https://github.com/Kloen/jiconfont-mana/issues'
+                    }
+                    licenses {
+                        license {
+                            name = 'MIT'
+                            url = 'https://github.com/Kloen/jiconfont-mana/blob/master/LICENSE'
+                            distribution = 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'kloen'
+                            name = 'Klöen Lansfiel'
+                            email = 'kloen@kloenlansfiel.com'
+                        }
+                    }
+                    scm {
+                        url = 'https://github.com/Kloen/jiconfont-mana.git'
+                        connection = 'scm:git:git://github.com/Kloen/jiconfont-mana.git'
+                        developerConnection = 'scm:git:ssh://git@github.com:Kloen/jiconfont-mana.git'
+                    }
                 }
             }
         }
     }
     repositories {
         maven {
-            //url "https://oss.sonatype.org/content/repositories/snapshots"
-            url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
                 username sonatypeUsername
                 password sonatypePassword
@@ -90,60 +84,13 @@ publishing {
     }
 }
 
-def customizePom(pom) {
-    pom.withXml {
-        def root = asNode()
-
-        // eliminate test-scoped dependencies (no need in maven central POMs)
-        root.dependencies.removeAll { dep ->
-            dep.scope == "test"
-        }
-
-        // add all items necessary for maven central publication
-        root.children().last() + {
-            resolveStrategy = Closure.DELEGATE_FIRST
-
-            description 'jIconFont (https://github.com/jIconFont/jiconfont) implementation of Mana (https://github.com/andrewgioia/Mana)'
-            name 'jIconFont Mana'
-            url 'https://github.com/Kloen/jiconfont-mana'
-            organization {
-                name 'com.kloenlansfiel'
-                url 'https://www.kloenlansfiel.com'
-            }
-            issueManagement {
-                system 'Github'
-                url 'https://github.com/Kloen/jiconfont-mana/issues'
-            }
-            licenses {
-                license {
-                    name 'MIT'
-                    url 'https://github.com/Kloen/jiconfont-mana/blob/master/LICENSE'
-                    distribution 'repo'
-                }
-            }
-            scm {
-                url 'https://github.com/Kloen/jiconfont-mana.git'
-                connection 'scm:git:git://github.com/Kloen/jiconfont-mana.git'
-                developerConnection 'scm:git:ssh://git@github.com:Kloen/jiconfont-mana.git'
-            }
-            developers {
-                developer {
-                    name 'Kloen Lansfiel'
-                    email 'kloen@kloenlansfiel.com'
-                }
-            }
-        }
-    }
+signing {
+    useGpgCmd()
+    sign publishing.publications.mavenJava
 }
 
-model {
-    tasks.generatePomFileForMavenJavaPublication {
-        destination = file("$buildDir/generated-pom.xml")
-    }
-    tasks.publishMavenJavaPublicationToMavenLocal {
-        dependsOn project.tasks.signArchives
-    }
-    tasks.publishMavenJavaPublicationToMavenRepository {
-        dependsOn project.tasks.signArchives
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
