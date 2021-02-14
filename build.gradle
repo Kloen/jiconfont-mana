@@ -1,5 +1,5 @@
 group 'com.kloenlansfiel.jiconfont'
-version '1.1.0'
+version '1.2.0'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
@@ -32,6 +32,7 @@ artifacts {
 }
 
 signing {
+    useGpgCmd()
     sign configurations.archives
 }
 
@@ -41,7 +42,7 @@ publishing {
             customizePom(pom)
             groupId 'com.kloenlansfiel.jiconfont'
             artifactId 'mana'
-            version '1.1.0'
+            version '1.2.0'
 
             from components.java
 
@@ -110,8 +111,8 @@ def customizePom(pom) {
                 url 'https://www.kloenlansfiel.com'
             }
             issueManagement {
-                system 'Phabricator'
-                url 'https://bugs.kloenlansfiel.com'
+                system 'Github'
+                url 'https://github.com/Kloen/jiconfont-mana/issues'
             }
             licenses {
                 license {
@@ -128,6 +129,7 @@ def customizePom(pom) {
             developers {
                 developer {
                     name 'Kloen Lansfiel'
+                    email 'kloen@kloenlansfiel.com'
                 }
             }
         }
