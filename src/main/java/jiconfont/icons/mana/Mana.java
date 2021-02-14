@@ -24,14 +24,19 @@ import java.io.InputStream;
 public enum Mana implements IconCode {
 
     /**
-     * MANA
+     * Mana & Resource Symbols
      */
-
     W( '\uE600'),
     U( '\uE601'),
     B( '\uE602'),
     R( '\uE603'),
     G( '\uE604'),
+    C( '\uE904'),
+    P( '\uE618'),
+    S( '\uE619'),
+    X( '\uE615'),
+    Y( '\uE616'),
+    Z( '\uE617'),
     _0( '\uE605'),
     _1( '\uE606'),
     _2( '\uE607'),
@@ -53,28 +58,48 @@ public enum Mana implements IconCode {
     _18( '\uE62C'),
     _19( '\uE62D'),
     _20( '\uE62E'),
-    X( '\uE615'),
-    Y( '\uE616'),
-    Z( '\uE617'),
-    P( '\uE618'),
-    S( '\uE619'),
-    C( '\uE904'),
+    HALF( '\uE902'),
+    INFINITY( '\uE903'),
+    _100( '\uE900'),
+    _1000000( '\uE901'),
     E('\uE907'),
-    ENERGY('\uE907'),
 
     /**
-     * TAP/ROLL SYMBOLS
+     * Card Symbols
      */
     TAP( '\uE61A'),
     UNTAP( '\uE61B'),
     TAP_ALT( '\uE61C'),
     CHAOS( '\uE61D'),
-    _1_2( '\uE902'),
-    HALF( '\uE902'),
-    INFINITY( '\uE903'),
+    FLASHBACK( '\uE629'),
+    LOYALTY_UP( '\uE627'),
+    LOYALTY_DOWN( '\uE625'),
+    LOYALTY_ZERO( '\uE626'),
+    LOYALTY_START( '\uE628'),
+    POWER( '\uE921'),
+    TOUGHNESS( '\uE922'),
+    ARTIST_BRUSH( '\uE923'),
+    ARTIST_NIB( '\uE924'),
+    SAGA('\uE92A'),
+    ACORN('\uE929'),
+    RARITY('\uE96C'),
+    MULTICOLOR('\uE986'),
 
     /**
-     * CARD TYPES
+     * Double-Faced Cards
+     */
+    DFC_DAY( '\uE906'),
+    DFC_NIGHT( '\uE905'),
+    DFC_SPARK( '\uE909'),
+    DFC_IGNITE( '\uE908'),
+    DFC_MOON( '\uE90B'),
+    DFC_EMRAKUL( '\uE90A'),
+    DFC_ENCHANTMENT( '\uE920'),
+    DFC_MODAL_FACE('\uE983'),
+    DFC_MODAL_BLACK('\uE984'),
+
+    /**
+     * Card Types
      */
     ARTIFACT( '\uE61E'),
     CREATURE( '\uE61F'),
@@ -83,39 +108,17 @@ public enum Mana implements IconCode {
     LAND( '\uE622'),
     PLANESWALKER( '\uE623'),
     SORCERY( '\uE624'),
+    TRIBAL( '\uE925'),
     MULTIPLE( '\uE925'),
+    PLANE('\uE96F'),
+    PHENOMENON('\uE96E'),
+    SCHEME('\uE970'),
+    CONSPIRACY('\uE972'),
+    VANGUARD('\uE971'),
+    TOKEN('\uE96D'),
 
     /**
-     * UN-SET SYMBOLS
-     */
-    _100( '\uE900'),
-    _1000000( '\uE901'),
-
-    /**
-     * PLANESWALKER SYMBOLS
-     */
-    LOYALTY_UP( '\uE627'), // UP
-    LOYALTY_DOWN( '\uE625'), // DOWN
-    LOYALTY_ZERO( '\uE626'), // ZERO
-    LOYALTY_START( '\uE628'), // START
-
-    /**
-     * OTHER */
-    FLASHBACK( '\uE629'),
-    DFC_NIGHT( '\uE905'),
-    DFC_DAY( '\uE906'),
-    DFC_IGNITE( '\uE908'),
-    DFC_SPARK( '\uE909'),
-    DFC_EMRAKUL( '\uE90A'),
-    DFC_MOON( '\uE90B'),
-    DFC_ENCHANTMENT( '\uE920'),
-    POWER( '\uE921'),
-    TOUGHNESS( '\uE922'),
-    ARTIST_BRUSH( '\uE923'),
-    ARTIST_NIB( '\uE924'),
-
-    /**
-     * GUILDS AND CLANS
+     * Guild and Clan Watermarks
      */
     GUILD_AZORIUS( '\uE90C'),
     GUILD_BOROS( '\uE90D'),
@@ -139,7 +142,7 @@ public enum Mana implements IconCode {
     CLAN_SILUMGAR( '\uE91F'),
 
     /**
-     * POLEIS
+     * Poleis Symbols
      */
     POLIS_SETESSA( '\uE926'),
     POLIS_AKROS( '\uE927'),
