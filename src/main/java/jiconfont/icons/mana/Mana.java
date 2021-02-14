@@ -24,7 +24,7 @@ import java.io.InputStream;
 public enum Mana implements IconCode {
 
     /**
-     * Mana & Resource Symbols
+     * Mana and Resource Symbols
      */
     W( '\uE600'),
     U( '\uE601'),
